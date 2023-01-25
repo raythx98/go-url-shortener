@@ -15,6 +15,7 @@ func AddHandlers() {
 	off := OffHandler{}
 
 	grpcServer := grpc.NewServer()
+	fmt.Println(grpcServer)
 
 	// Use the mux.Handle() function to register this with our new servemux,
 	// so it acts as the customhandler for all incoming requests with the URL path /test.
