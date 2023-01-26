@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package url_shortener_proto;
+
+option go_package = "./url_shortener_proto";
+
+service UrlShortenerService{
+  rpc TurnOn (TurnOnRequest) returns (TurnOnResponse);
+  rpc TurnOff (TurnOffRequest) returns (TurnOffResponse);
+}
+
+message TurnOnRequest {
+}
+
+message TurnOnResponse {
+}
+
+message TurnOffRequest {
+}
+
+message TurnOffResponse {
+}
