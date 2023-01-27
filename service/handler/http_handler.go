@@ -10,7 +10,7 @@ import (
 )
 
 func TurnOn(c *fiber.Ctx) error {
-	log.Println("Turning off...")
+	log.Println("Turning on...")
 	onCommand := &command.OnCommand{
 		Device: &receiver.Tv{},
 	}
