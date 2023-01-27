@@ -1,8 +1,7 @@
-package service
+package handler
 
 import (
-	"fmt"
-	"net/http"
+	"log"
 
 	"golang.org/x/net/context"
 
@@ -17,7 +16,7 @@ type Server struct {
 }
 
 func (s *Server) TurnOn(ctx context.Context, request *url_shortener_proto.TurnOnRequest) (*url_shortener_proto.TurnOnResponse, error) {
-	fmt.Println("Turning on...")
+	log.Println("Turning on...")
 	onCommand := &command.OnCommand{
 		Device: &receiver.Tv{},
 	}
@@ -25,12 +24,11 @@ func (s *Server) TurnOn(ctx context.Context, request *url_shortener_proto.TurnOn
 		Command: onCommand,
 	}
 	onButton.Press()
-	fmt.Println("Turned on...")
-	return &url_shortener_proto.TurnOnResponse{}, nil
+	return &url_shortener_proto.TurnOnResponse{Response: "Turned on..."}, nil
 }
 
 func (s *Server) TurnOff(ctx context.Context, request *url_shortener_proto.TurnOffRequest) (*url_shortener_proto.TurnOffResponse, error) {
-	fmt.Println("Turning off...")
+	log.Println("Turning off...")
 	offCommand := &command.OffCommand{
 		Device: &receiver.Tv{},
 	}
@@ -38,30 +36,5 @@ func (s *Server) TurnOff(ctx context.Context, request *url_shortener_proto.TurnO
 		Command: offCommand,
 	}
 	offButton.Press()
-	fmt.Println("Turned off...")
-	return &url_shortener_proto.TurnOffResponse{}, nil
-}
-
-func (on OnHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Turning on...\n"))
-	onCommand := &command.OnCommand{
-		Device: &receiver.Tv{},
-	}
-	onButton := &invoker.Button{
-		Command: onCommand,
-	}
-	onButton.Press()
-	w.Write([]byte("Turned on..."))
-}
-
-func (off OffHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Turning off...\n"))
-	offCommand := &command.OffCommand{
-		Device: &receiver.Tv{},
-	}
-	offButton := &invoker.Button{
-		Command: offCommand,
-	}
-	offButton.Press()
-	w.Write([]byte("Turned off..."))
+	return &url_shortener_proto.TurnOffResponse{Response: "Turned off..."}, nil
 }

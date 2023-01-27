@@ -1,7 +1,7 @@
 package receiver
 
 import (
-	"fmt"
+	"log"
 )
 
 type Tv struct {
@@ -10,10 +10,10 @@ type Tv struct {
 
 func (t *Tv) On() {
 	t.isRunning = true
-	fmt.Println("Turning tv on")
+	log.Println("Success: on")
 }
 
 func (t *Tv) Off() {
 	t.isRunning = false
-	fmt.Println("Turning tv off")
+	log.Println("Success: off")
 }

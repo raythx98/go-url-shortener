@@ -6,5 +6,5 @@ import (
 
 func main() {
 	service.Init()
-	service.AddHandlers()
+	service.StartService()
 }
