@@ -1,5 +1,7 @@
 package service
 
-type OnHandler struct{}
+import "github.com/gofiber/fiber/v2"
 
-type OffHandler struct{}
+type FiberApp struct {
+	fiberApp *fiber.App
+}

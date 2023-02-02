@@ -13,10 +13,12 @@ message TurnOnRequest {
 }
 
 message TurnOnResponse {
+  string response = 1;
 }
 
 message TurnOffRequest {
 }
 
 message TurnOffResponse {
+  string response = 1;
 }

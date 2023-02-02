@@ -1,12 +1,6 @@
 package invoker
 
 import (
-	// stdlib
-
-	// third party
-
-	// internal github
-
 	"github.com/raythx98/go-url-shortener/service/command"
 )
 
