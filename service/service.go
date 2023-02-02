@@ -22,7 +22,7 @@ func AddHandlers() {
 
 	fmt.Println("Listening...")
 
-	// can listen from any IP Addressl
+	// can listen from any IP Address
 	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9282))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
