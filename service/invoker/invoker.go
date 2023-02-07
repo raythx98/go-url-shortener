@@ -4,15 +4,15 @@ import (
 	"github.com/raythx98/go-url-shortener/service/command"
 )
 
-type Button struct {
+type Invoker struct {
 	Command command.Command
 }
 
-func (b *Button) Press() {
+func (b *Invoker) Invoke() string {
 	/*
 		start goroutine to execute command,
 		suitable if response is not needed - EDA
 	*/
 	// go b.Command.Execute()
-	b.Command.Execute()
+	return b.Command.Execute()
 }
