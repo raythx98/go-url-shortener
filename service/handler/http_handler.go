@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"log"
 
@@ -34,9 +35,6 @@ func AddLink(c *fiber.Ctx) error {
 }
 
 func GetFullLink(c *fiber.Ctx) error {
-	log.Println("Redirecting...")
-
-	log.Println("From:", c.Params("shortUrl"))
 	getFullLinkCommand := &command.GetFullLinkCommand{
 		Database:      receiver.DbInstance,
 		ShortenedLink: c.Params("shortUrl"),
@@ -44,7 +42,8 @@ func GetFullLink(c *fiber.Ctx) error {
 	getFullLinkInvoker := &invoker.Invoker{
 		Command: getFullLinkCommand,
 	}
+
 	fullUrl := getFullLinkInvoker.Invoke()
-	log.Println("To:", fullUrl)
-	return c.Redirect(fullUrl)
+	log.Println(fmt.Sprintf("redirecting from:%s to://%s", c.Params("shortUrl"), fullUrl))
+	return c.Redirect(fmt.Sprintf("//%s", fullUrl))
 }

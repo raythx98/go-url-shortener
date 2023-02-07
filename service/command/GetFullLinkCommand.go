@@ -19,6 +19,5 @@ func (c *GetFullLinkCommand) Execute() string {
 		log.Println(err)
 		return ""
 	}
-	log.Println(fullLink)
 	return fullLink
 }
