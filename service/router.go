@@ -9,6 +9,6 @@ func (app *FiberApp) Listen(addr string) error {
 }
 
 func (app *FiberApp) RegisterRouter() {
-	app.fiberApp.Get("/on", handler.TurnOn)
-	app.fiberApp.Get("/off", handler.TurnOff)
+	app.fiberApp.Post("/", handler.AddLink)
+	app.fiberApp.Get("/:shortUrl", handler.GetFullLink)
 }

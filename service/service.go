@@ -1,7 +1,6 @@
 package service
 
 import (
-	// stdlib
 	"fmt"
 	"log"
 	"net"
@@ -61,5 +60,4 @@ func StartService() {
 				log.Fatalf("failed to listen to HTTP port 9281: %v", err)
 			}
 	*/
-
 }
