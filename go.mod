@@ -3,6 +3,7 @@ module github.com/raythx98/go-url-shortener
 go 1.19
 
 require (
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/gofiber/fiber/v2 v2.41.0
 	golang.org/x/net v0.4.0
 	google.golang.org/grpc v1.52.1
@@ -10,8 +11,8 @@ require (
 )
 
 require (
+	github.com/aidarkhanov/nanoid v1.0.8 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
