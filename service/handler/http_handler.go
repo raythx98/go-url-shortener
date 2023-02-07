@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"log"
 
@@ -9,26 +10,41 @@ import (
 	"github.com/raythx98/go-url-shortener/service/receiver"
 )
 
-func TurnOn(c *fiber.Ctx) error {
-	log.Println("Turning on...")
-	onCommand := &command.OnCommand{
-		Device: &receiver.Tv{},
+func AddLink(c *fiber.Ctx) error {
+	log.Println("Adding link...")
+
+	addLinkCommand := &command.AddLinkCommand{Database: receiver.DbInstance}
+
+	if err := c.BodyParser(&addLinkCommand); err != nil {
+		log.Println(err)
+		return c.Status(400).SendString("Cannot unmarshal payload")
 	}
-	onButton := &invoker.Button{
-		Command: onCommand,
+
+	addLinkInvoker := &invoker.Invoker{
+		Command: addLinkCommand,
 	}
-	onButton.Press()
-	return c.Status(200).Send([]byte("Turned On..."))
+	shortenedUrl := addLinkInvoker.Invoke()
+
+	addLinkCommandJSON, err := json.Marshal(addLinkCommand)
+	if err == nil {
+		log.Println(string(addLinkCommandJSON))
+	}
+
+	return c.Status(201).Send([]byte(shortenedUrl))
 }
 
-func TurnOff(c *fiber.Ctx) error {
-	log.Println("Turning off...")
-	offCommand := &command.OffCommand{
-		Device: &receiver.Tv{},
+func GetFullLink(c *fiber.Ctx) error {
+	log.Println("Redirecting...")
+
+	log.Println("From:", c.Params("shortUrl"))
+	getFullLinkCommand := &command.GetFullLinkCommand{
+		Database:      receiver.DbInstance,
+		ShortenedLink: c.Params("shortUrl"),
 	}
-	offButton := &invoker.Button{
-		Command: offCommand,
+	getFullLinkInvoker := &invoker.Invoker{
+		Command: getFullLinkCommand,
 	}
-	offButton.Press()
-	return c.Status(200).Send([]byte("Turned Off..."))
+	fullUrl := getFullLinkInvoker.Invoke()
+	log.Println("To:", fullUrl)
+	return c.Redirect(fullUrl)
 }

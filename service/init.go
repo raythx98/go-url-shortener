@@ -2,30 +2,20 @@ package service
 
 import (
 	"database/sql"
+	database "github.com/raythx98/go-url-shortener/database/sqlc/output"
+	"github.com/raythx98/go-url-shortener/service/receiver"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func Init() {
-	db, err := sql.Open("mysql", "root:password@/dbname")
+	db, err := sql.Open("mysql", "root:password@tcp(docker.for.mac.localhost:3306)/go_url_shortener")
 	if err != nil {
 		panic(err)
 	}
 
-	stmtOut, err := db.Prepare("SELECT squareNumber FROM squarenum WHERE number = ?")
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-	defer stmtOut.Close()
-
-	var squareNum int // we "scan" the result in here
-
-	// Query the square-number of 13
-	err = stmtOut.QueryRow(13).Scan(&squareNum) // WHERE number = 13
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
+	receiver.DbInstance.Queries = database.New(db)
 
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)

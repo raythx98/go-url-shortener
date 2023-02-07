@@ -17,24 +17,24 @@ type Server struct {
 
 func (s *Server) TurnOn(ctx context.Context, request *url_shortener_proto.TurnOnRequest) (*url_shortener_proto.TurnOnResponse, error) {
 	log.Println("Turning on...")
-	onCommand := &command.OnCommand{
-		Device: &receiver.Tv{},
+	addLinkCommand := &command.AddLinkCommand{
+		Database: receiver.DbInstance,
 	}
-	onButton := &invoker.Button{
-		Command: onCommand,
+	addLinkInvoker := &invoker.Invoker{
+		Command: addLinkCommand,
 	}
-	onButton.Press()
+	addLinkInvoker.Invoke()
 	return &url_shortener_proto.TurnOnResponse{Response: "Turned on..."}, nil
 }
 
 func (s *Server) TurnOff(ctx context.Context, request *url_shortener_proto.TurnOffRequest) (*url_shortener_proto.TurnOffResponse, error) {
 	log.Println("Turning off...")
-	offCommand := &command.OffCommand{
-		Device: &receiver.Tv{},
+	getFullLinkCommand := &command.GetFullLinkCommand{
+		Database: receiver.DbInstance,
 	}
-	offButton := &invoker.Button{
-		Command: offCommand,
+	getFullLinkInvoker := &invoker.Invoker{
+		Command: getFullLinkCommand,
 	}
-	offButton.Press()
+	getFullLinkInvoker.Invoke()
 	return &url_shortener_proto.TurnOffResponse{Response: "Turned off..."}, nil
 }
