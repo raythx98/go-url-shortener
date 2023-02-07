@@ -8,15 +8,12 @@ import (
 
 	"github.com/raythx98/go-url-shortener/service/command"
 	"github.com/raythx98/go-url-shortener/service/invoker"
-	"github.com/raythx98/go-url-shortener/service/receiver"
 )
 
 func AddLink(c *fiber.Ctx) error {
-	log.Println("Adding link...")
+	addLinkCommand := &command.AddLinkCommand{}
 
-	addLinkCommand := &command.AddLinkCommand{Database: receiver.DbInstance}
-
-	if err := c.BodyParser(&addLinkCommand); err != nil {
+	if err := c.BodyParser(addLinkCommand); err != nil {
 		log.Println(err)
 		return c.Status(400).SendString("Cannot unmarshal payload")
 	}
@@ -24,7 +21,8 @@ func AddLink(c *fiber.Ctx) error {
 	addLinkInvoker := &invoker.Invoker{
 		Command: addLinkCommand,
 	}
-	shortenedUrl := addLinkInvoker.Invoke()
+	shortenedUrl, err := addLinkInvoker.Invoke()
+	log.Println(fmt.Sprintf("Mapped to short link:%s", shortenedUrl))
 
 	addLinkCommandJSON, err := json.Marshal(addLinkCommand)
 	if err == nil {
@@ -36,14 +34,17 @@ func AddLink(c *fiber.Ctx) error {
 
 func GetFullLink(c *fiber.Ctx) error {
 	getFullLinkCommand := &command.GetFullLinkCommand{
-		Database:      receiver.DbInstance,
 		ShortenedLink: c.Params("shortUrl"),
 	}
 	getFullLinkInvoker := &invoker.Invoker{
 		Command: getFullLinkCommand,
 	}
 
-	fullUrl := getFullLinkInvoker.Invoke()
+	fullUrl, err := getFullLinkInvoker.Invoke()
+	if err != nil {
+		panic(err)
+	}
+
 	log.Println(fmt.Sprintf("redirecting from:%s to://%s", c.Params("shortUrl"), fullUrl))
 	return c.Redirect(fmt.Sprintf("//%s", fullUrl))
 }

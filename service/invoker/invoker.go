@@ -8,7 +8,7 @@ type Invoker struct {
 	Command command.Command
 }
 
-func (b *Invoker) Invoke() string {
+func (b *Invoker) Invoke() (string, error) {
 	/*
 		start goroutine to execute command,
 		suitable if response is not needed - EDA
